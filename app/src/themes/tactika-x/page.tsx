@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { Product, categories, products } from '@/src/lib/api/data/products';
-import LoginModalContent from '@/src/components/auth/LoginModalContent';
+import { LoginModal } from '@/src/themes/shared/auth';
 
 import {
   TactikaXHeader,
@@ -277,8 +277,13 @@ export default function TactikaXPage() {
               >
                 &times;
               </button>
-              <h2>Customer Login</h2>
-              <LoginModalContent />
+              <LoginModal
+                logoSrc="/themes/tactical/logo_tactical.png"
+                title="TÁCTICA-X Login"
+                language="es"
+                redirectPath="/customer/dashboard"
+                onSuccess={() => setShowLogin(false)}
+              />
             </div>
           </div>
         )}

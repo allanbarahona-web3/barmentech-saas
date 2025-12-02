@@ -18,9 +18,19 @@ export function Footer() {
               </div>
               <span className="font-bold text-lg">Barmentech</span>
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className="text-slate-400 text-sm leading-relaxed mb-4">
               {t.footerAbout}
             </p>
+            <div className="space-y-2 text-slate-400 text-sm">
+              <p className="font-semibold text-white">Barmentech LLC</p>
+              <p>1110 Brickell Ave # 430K-101</p>
+              <p>Miami, Florida 33131</p>
+              <p className="mt-2">
+                <a href="tel:+17863918722" className="hover:text-white transition">
+                  +1 (786) 391-8722
+                </a>
+              </p>
+            </div>
           </div>
 
           {/* Product */}

@@ -63,7 +63,7 @@ export function CRMLandingPage() {
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-12 sm:mb-16">
             <Link
-              href="/crm/signup"
+              href="/crm-public/signup"
               className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-gray-50 shadow-xl hover:shadow-2xl transition hover:scale-105 text-sm sm:text-base"
             >
               {hero.cta_signup}

@@ -87,7 +87,7 @@ export function Pricing({ language }: PricingProps) {
                 ))}
               </ul>
               <Link
-                href="/crm/signup"
+                href="/crm-public/signup"
                 className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 ${
                   isSelected
                     ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg'

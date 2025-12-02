@@ -71,6 +71,17 @@ export function Footer({ language }: FooterProps) {
             <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 leading-relaxed">
               {t.tagline}
             </p>
+            
+            {/* Contact Info */}
+            <div className="mb-4 space-y-1 text-xs sm:text-sm text-gray-400">
+              <p className="font-semibold text-white text-sm">Barmentech LLC</p>
+              <p>1110 Brickell Ave # 430K-101</p>
+              <p>Miami, Florida 33131</p>
+              <a href="tel:+17863918722" className="text-blue-400 hover:text-blue-300 transition block mt-2">
+                +1 (786) 391-8722
+              </a>
+            </div>
+
             <div className="flex gap-2 sm:gap-3">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 sm:w-10 h-8 sm:h-10 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition flex-shrink-0">
                 <Facebook size={16} className="sm:w-[18px] sm:h-[18px]" />

@@ -59,7 +59,7 @@ export function Header({ language, onLanguageChange, onContactClick }: HeaderPro
 
             {/* CTA Button */}
             <Link
-              href="/crm/signup"
+              href="/crm-public/signup"
               className="inline-flex px-4 sm:px-6 py-2 text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg shadow-lg hover:shadow-xl transition"
             >
               {language === 'es' ? 'Comenzar Gratis' : 'Get Started Free'}
