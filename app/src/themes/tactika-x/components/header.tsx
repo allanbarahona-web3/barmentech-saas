@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { tactikaXThemeConfig } from '../theme.config';
 
 interface HeaderProps {
@@ -12,7 +13,7 @@ export function TactikaXHeader({ cartCount, onCartClick, onLoginClick }: HeaderP
   const { name, tagline, contact, social } = tactikaXThemeConfig;
 
   return (
-    <header>
+    <header style={{ backgroundColor: '#0a0e27' }}>
       {/* Top Bar */}
       <div className="header-top">
         <div className="container">
@@ -55,7 +56,16 @@ export function TactikaXHeader({ cartCount, onCartClick, onLoginClick }: HeaderP
       <div className="container">
         <div className="header-content">
           <div className="logo-container">
-            <div className="logo">TX</div>
+            <div className="logo">
+              <Image 
+                src="/themes/tactika-x/logo.png"
+                alt="TACTIKA-X Logo"
+                width={80}
+                height={80}
+                className="object-contain"
+                priority
+              />
+            </div>
             <div className="brand-text">
               <h1>{name}</h1>
               <p>{tagline}</p>
