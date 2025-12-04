@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { tactikaXThemeConfig } from '../theme.config';
 
 interface HeroProps {
@@ -13,6 +14,18 @@ export function TactikaXHero({}: HeroProps) {
     <section className="hero">
       <div className="container">
         <div className="hero-content">
+          {/* Logo */}
+          <div className="hero-logo mb-6 md:mb-8">
+            <Image 
+              src="/themes/tactika-x/logo.png"
+              alt="Táctica X Logo"
+              width={200}
+              height={200}
+              className="mx-auto h-32 w-auto object-contain drop-shadow-lg"
+              priority
+            />
+          </div>
+          
           <span className="hero-badge">{hero.badge}</span>
           <h2 dangerouslySetInnerHTML={{ __html: hero.title }} />
           <p>{hero.subtitle}</p>
