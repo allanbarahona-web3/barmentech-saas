@@ -59,8 +59,8 @@ export function TactikaXHeader({ cartCount, onCartClick, onLoginClick }: HeaderP
             <Image 
               src="/themes/tactika-x/logo.png"
               alt="TACTIKA-X Logo"
-              width={90}
-              height={90}
+              width={180}
+              height={180}
               className="object-contain"
               priority
             />
