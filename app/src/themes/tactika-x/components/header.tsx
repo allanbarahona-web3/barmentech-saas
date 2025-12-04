@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export function TactikaXHeader({ cartCount, onCartClick, onLoginClick }: HeaderProps) {
-  const { name, tagline, contact, social } = tactikaXThemeConfig;
+  const { contact, social } = tactikaXThemeConfig;
 
   return (
     <header style={{ backgroundColor: '#0a0e27' }}>
