@@ -13,7 +13,10 @@ export function TactikaXHeader({ cartCount, onCartClick, onLoginClick }: HeaderP
   const { contact, social } = tactikaXThemeConfig;
 
   return (
-    <header style={{ backgroundColor: '#0a0e27' }}>
+    <header style={{ 
+      backgroundColor: '#0a0e27',
+      backgroundImage: 'linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%)'
+    }}>
       {/* Top Bar */}
       <div className="header-top">
         <div className="container">
@@ -59,8 +62,8 @@ export function TactikaXHeader({ cartCount, onCartClick, onLoginClick }: HeaderP
             <Image 
               src="/themes/tactika-x/logo.png"
               alt="TACTIKA-X Logo"
-              width={180}
-              height={180}
+              width={135}
+              height={135}
               className="object-contain"
               priority
             />
