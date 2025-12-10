@@ -21,7 +21,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="es">
+    <html lang="es" className="scroll-smooth">
       <head>
         <link rel="icon" href="/themes/tactika-x/X Favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/themes/tactika-x/X Favicon.png" />

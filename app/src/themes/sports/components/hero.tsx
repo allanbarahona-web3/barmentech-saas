@@ -20,7 +20,7 @@ export function Hero({ whatsappNumber = '+50687654321' }: HeroProps) {
             <span className="text-orange-500">cr</span>
           </h1>
           <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-widest mt-2">
-            Liquidación de tenis premium
+            Liquidación de zapatillas deportivas 
           </p>
         </div>
 

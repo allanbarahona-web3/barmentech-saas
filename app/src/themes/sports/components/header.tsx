@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingBag, Menu, X } from 'lucide-react';
+import { ShoppingBag, Menu, X, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { useSportsCart } from '../context/CartContext';
+import { getUniqueBrands } from '../data/products';
 
 interface HeaderProps {
   onCheckoutClick?: () => void;
@@ -12,7 +13,9 @@ interface HeaderProps {
 export function Header({ onCheckoutClick }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isBrandMenuOpen, setIsBrandMenuOpen] = useState(false);
   const { itemCount } = useSportsCart();
+  const brands = getUniqueBrands();
 
   return (
     <>
@@ -37,6 +40,26 @@ export function Header({ onCheckoutClick }: HeaderProps) {
             >
               Catálogo
             </Link>
+            
+            {/* Brands Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-orange-600 transition">
+                Marcas
+                <ChevronDown size={16} className="group-hover:rotate-180 transition-transform" />
+              </button>
+              <div className="absolute left-0 mt-0 w-48 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                {brands.map((brand) => (
+                  <Link
+                    key={brand}
+                    href={`/sports/catalogo?brand=${encodeURIComponent(brand)}`}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 hover:text-orange-600 first:rounded-t-lg last:rounded-b-lg"
+                  >
+                    {brand}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             <a href="#faq" className="text-sm font-medium text-gray-600 hover:text-orange-600 transition">
               Preguntas
             </a>
@@ -79,6 +102,35 @@ export function Header({ onCheckoutClick }: HeaderProps) {
             >
               Catálogo
             </Link>
+            
+            {/* Mobile Brands Submenu */}
+            <div>
+              <button
+                onClick={() => setIsBrandMenuOpen(!isBrandMenuOpen)}
+                className="flex items-center justify-between w-full text-sm font-medium text-gray-900 hover:text-orange-600"
+              >
+                Marcas
+                <ChevronDown 
+                  size={16} 
+                  className={`transition-transform ${isBrandMenuOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {isBrandMenuOpen && (
+                <div className="mt-2 ml-4 space-y-2 border-l-2 border-orange-300 pl-4">
+                  {brands.map((brand) => (
+                    <Link
+                      key={brand}
+                      href={`/sports/catalogo?brand=${encodeURIComponent(brand)}`}
+                      className="block text-sm text-gray-700 hover:text-orange-600"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {brand}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <a href="#faq" className="block text-sm font-medium text-gray-900 hover:text-orange-600">
               Preguntas
             </a>

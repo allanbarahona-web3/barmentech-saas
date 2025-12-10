@@ -9,9 +9,13 @@ export interface Product {
   featured: boolean;
   bullets: string[];
   sku?: string;
+  brand: string; // Nike, Adidas, Puma, etc
 }
 
-// FEATURED PRODUCTS (Top 4-6)
+// BRANDS - Actualizable según necesites más marcas
+export const BRANDS = ['Nike', 'Adidas', 'Puma', 'New Balance', 'Reebok', 'Vans', 'Converse', 'Saucony', 'ASICS', 'Mizuno'];
+
+// FEATURED PRODUCTS (Top 8)
 export const featuredProducts: Product[] = [
   {
     id: 'sneaker-001',
@@ -19,6 +23,7 @@ export const featuredProducts: Product[] = [
     price: 89.99,
     image: '/images/placeholder-1.jpg',
     featured: true,
+    brand: 'Nike',
     bullets: ['Comodidad extrema', 'Tecnología Air Max'],
     sku: 'NIKE-AIR-001',
   },
@@ -28,6 +33,7 @@ export const featuredProducts: Product[] = [
     price: 79.99,
     image: '/images/placeholder-2.jpg',
     featured: true,
+    brand: 'Adidas',
     bullets: ['Soporte premium', 'Diseño moderno'],
     sku: 'ADIDAS-ULTRA-002',
   },
@@ -37,6 +43,7 @@ export const featuredProducts: Product[] = [
     price: 69.99,
     image: '/images/placeholder-3.jpg',
     featured: true,
+    brand: 'Puma',
     bullets: ['Estilo retro', 'Excelente agarre'],
     sku: 'PUMA-RSX-003',
   },
@@ -46,6 +53,7 @@ export const featuredProducts: Product[] = [
     price: 99.99,
     image: '/images/placeholder-4.jpg',
     featured: true,
+    brand: 'New Balance',
     bullets: ['Calidad garantizada', 'Comodidad todo día'],
     sku: 'NB-990-004',
   },
@@ -55,6 +63,7 @@ export const featuredProducts: Product[] = [
     price: 59.99,
     image: '/images/placeholder-5.jpg',
     featured: true,
+    brand: 'Reebok',
     bullets: ['Estilo clásico', 'Precio accesible'],
     sku: 'REEBOK-CLASS-005',
   },
@@ -64,22 +73,17 @@ export const featuredProducts: Product[] = [
     price: 64.99,
     image: '/images/placeholder-6.jpg',
     featured: true,
+    brand: 'Vans',
     bullets: ['Icónico y versátil', 'Perfecto para cualquier outfit'],
     sku: 'VANS-OLDSK-006',
   },
-];
-
-// ALL PRODUCTS (Complete Catalog)
-// Incluye featured + más tenis para el catálogo completo
-export const allProducts: Product[] = [
-  ...featuredProducts,
-  // Agregar más aquí (7-100 tenis adicionales)
   {
     id: 'sneaker-007',
     name: 'Converse Chuck Taylor',
     price: 54.99,
     image: '/images/placeholder-7.jpg',
-    featured: false,
+    featured: true,
+    brand: 'Converse',
     bullets: ['Clásico atemporal', 'Versátil'],
     sku: 'CONVERSE-CT-007',
   },
@@ -88,16 +92,23 @@ export const allProducts: Product[] = [
     name: 'Saucony Jazz Original',
     price: 65.99,
     image: '/images/placeholder-8.jpg',
-    featured: false,
+    featured: true,
+    brand: 'Saucony',
     bullets: ['Ligero y flexible', 'Excelente precio'],
     sku: 'SAUCONY-JAZZ-008',
   },
+];
+
+// ALL PRODUCTS (Complete Catalog)
+export const allProducts: Product[] = [
+  ...featuredProducts,
   {
     id: 'sneaker-009',
     name: 'ASICS Gel-Lyte III',
     price: 84.99,
     image: '/images/placeholder-9.jpg',
     featured: false,
+    brand: 'ASICS',
     bullets: ['Amortiguación superior', 'Diseño innovador'],
     sku: 'ASICS-GELLYTE-009',
   },
@@ -107,10 +118,10 @@ export const allProducts: Product[] = [
     price: 74.99,
     image: '/images/placeholder-10.jpg',
     featured: false,
+    brand: 'Mizuno',
     bullets: ['Para correr', 'Tecnología Wave'],
     sku: 'MIZUNO-RIDER-010',
   },
-  // Agregar más productos según necesites (hasta 100)
 ];
 
 export const getProductById = (id: string): Product | undefined => {
@@ -123,4 +134,13 @@ export const getFeaturedProducts = (): Product[] => {
 
 export const getAllProducts = (): Product[] => {
   return allProducts;
+};
+
+export const getProductsByBrand = (brand: string): Product[] => {
+  return allProducts.filter((p) => p.brand === brand);
+};
+
+export const getUniqueBrands = (): string[] => {
+  const brands = new Set(allProducts.map((p) => p.brand));
+  return Array.from(brands).sort();
 };

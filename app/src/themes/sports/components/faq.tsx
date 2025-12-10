@@ -52,7 +52,7 @@ export function FAQ({ whatsappNumber = '+50687654321' }: FAQProps) {
   const waLink = `https://wa.me/${whatsappNumber.replace(/\D/g, '')}?text=Hola,%20tengo%20una%20pregunta%20sobre%20sneakerscr.com`;
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
+    <section id="faq" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white scroll-mt-20">
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-10 sm:mb-14 md:mb-16">
