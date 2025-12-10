@@ -1,8 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { ShoppingBag, MessageCircle } from 'lucide-react';
-import { useSportsCart } from '../context/CartContext';
+import { MessageCircle, HelpCircle } from 'lucide-react';
 import type { Product } from '../data/products';
 
 interface ProductCardProps {
@@ -11,7 +10,12 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onWhatsAppClick }: ProductCardProps) {
-  const { addItem } = useSportsCart();
+  const handleConsultSize = () => {
+    // Pre-fill message for size consultation
+    const waLink = `https://wa.me/50687654321?text=Hola,%20estoy%20interesado%20en%20${encodeURIComponent(product.name)}%20-%20¿Qué%20tallas%20tienes%20disponibles?`;
+    window.open(waLink, '_blank');
+  };
+
   return (
     <div
       className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-orange-200"
@@ -60,27 +64,24 @@ export function ProductCard({ product, onWhatsAppClick }: ProductCardProps) {
 
         {/* Buttons Container */}
         <div className="flex gap-2 sm:gap-3">
-          {/* WhatsApp Button */}
+          {/* Consult Size Button */}
+          <button
+            onClick={handleConsultSize}
+            className="flex-1 flex items-center justify-center gap-1.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-semibold py-2 sm:py-2.5 rounded-lg transition-all duration-200 text-xs sm:text-sm"
+            title={`Consultar tallas disponibles`}
+          >
+            <HelpCircle size={16} />
+            <span>Consultar talla</span>
+          </button>
+
+          {/* Lead/Info Button */}
           <button
             onClick={() => onWhatsAppClick(product)}
             className="flex-1 flex items-center justify-center gap-1.5 bg-white border-2 border-orange-500 text-orange-600 font-semibold py-2 sm:py-2.5 rounded-lg hover:bg-orange-50 active:bg-orange-100 transition-all duration-200 text-xs sm:text-sm"
-            title={`Pedir ${product.name} por WhatsApp`}
+            title={`Pedir info por WhatsApp`}
           >
             <MessageCircle size={16} />
-            <span>WhatsApp</span>
-          </button>
-
-          {/* Buy Button */}
-          <button
-            onClick={() => {
-              addItem(product, 1);
-              // TODO: Show toast notification "Added to cart"
-            }}
-            className="flex-1 flex items-center justify-center gap-1.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-semibold py-2 sm:py-2.5 rounded-lg transition-all duration-200 text-xs sm:text-sm"
-            title={`Agregar ${product.name} al carrito`}
-          >
-            <ShoppingBag size={16} />
-            <span>Comprar</span>
+            <span>Más info</span>
           </button>
         </div>
       </div>

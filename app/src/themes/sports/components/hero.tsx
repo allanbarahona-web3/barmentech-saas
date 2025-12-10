@@ -20,34 +20,34 @@ export function Hero({ whatsappNumber = '+50687654321' }: HeroProps) {
             <span className="text-orange-500">cr</span>
           </h1>
           <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-widest mt-2">
-            Liquidación de zapatillas deportivas 
+            Calzado deportivo en Costa Rica 
           </p>
         </div>
 
         {/* Main Title */}
         <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
           Tus tenis favoritos<br className="hidden sm:block" />
-          <span className="text-orange-500">a precio de liquidación</span>
+          <span className="text-orange-500">a un super precio, lleva 2 y consigue un descuento</span>
         </h2>
 
         {/* Subtitle */}
         <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto">
-          Marcas premium con descuentos increíbles. Envío rápido a todo el país y atención personalizada por WhatsApp.
+          Marcas premium con precios increíbles. Envío rápido a todo el país y atención personalizada por WhatsApp.
         </p>
 
         {/* Trust Bullets */}
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 mb-10 sm:mb-16 text-xs sm:text-sm text-gray-700">
           <div className="flex items-center gap-2 justify-center">
             <span className="text-lg sm:text-xl">✅</span>
-            <span>Envíos a todo el país</span>
+            <span>Envíos express 24 horas</span>
           </div>
           <div className="flex items-center gap-2 justify-center">
             <span className="text-lg sm:text-xl">✅</span>
-            <span>Pagos seguros</span>
+            <span>Pagos seguros Sinpe Movil o Tarjetas</span>
           </div>
           <div className="flex items-center gap-2 justify-center">
             <span className="text-lg sm:text-xl">✅</span>
-            <span>Atención 1 a 1 por WhatsApp</span>
+            <span>Atención de tus dudas  por WhatsApp</span>
           </div>
         </div>
 

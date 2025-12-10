@@ -64,7 +64,6 @@ function CatalogoContent() {
           </p>
         </div>
       </div>
-      </div>
 
       {/* Brand Filter */}
       <section className="sticky top-16 z-30 bg-white border-b border-gray-200 py-4 sm:py-6 px-4 sm:px-6 shadow-sm">

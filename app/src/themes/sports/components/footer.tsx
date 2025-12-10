@@ -23,7 +23,7 @@ export function Footer({ whatsappNumber = '+50687654321', email = 'hola@sneakers
               sneakers<span className="text-orange-500">cr</span>
             </h3>
             <p className="text-xs sm:text-sm text-gray-400">
-              Liquidación de tenis premium con envío rápido a todo Costa Rica.
+              calzado deportivo y más  con envío rápido a todo Costa Rica.
             </p>
           </div>
 
