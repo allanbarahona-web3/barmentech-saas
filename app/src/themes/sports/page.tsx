@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Hero, FeaturedProducts, Benefits, HowItWorks, Testimonials, FAQ, Footer } from './components';
+import { Hero, Header, FeaturedProducts, Benefits, HowItWorks, Testimonials, FAQ, Footer } from './components';
 import { CartProvider } from './context/CartContext';
 import { ContactForm } from '@/themes/shared/contact';
 import { getFeaturedProducts } from './data/products';
@@ -26,6 +26,9 @@ function SneakersCRContent() {
 
   return (
     <main className="bg-white">
+      {/* Header with Cart */}
+      <Header />
+
       {/* Hero */}
       <Hero />
 

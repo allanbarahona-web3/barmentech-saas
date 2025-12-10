@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ProductCard } from '../components/product-card';
 import { Footer } from '../components/footer';
+import { Header } from '../components/header';
 import { CartProvider } from '../context/CartContext';
 import { ContactForm } from '@/themes/shared/contact';
 import { getAllProducts } from '../data/products';
@@ -28,7 +29,10 @@ function CatalogoContent() {
 
   return (
     <main className="bg-white">
-      {/* Header */}
+      {/* Header with Cart */}
+      <Header />
+
+      {/* Catalog Header */}
       <div className="bg-gradient-to-br from-gray-50 via-white to-gray-100 px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto">
           <Link href="/sports" className="text-orange-600 hover:text-orange-700 font-semibold text-sm mb-4 block">

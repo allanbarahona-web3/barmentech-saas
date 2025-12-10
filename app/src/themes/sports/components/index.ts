@@ -1,4 +1,5 @@
 export { Hero } from './hero';
+export { Header } from './header';
 export { FeaturedProducts } from './featured-products';
 export { ProductCard } from './product-card';
 export { Benefits } from './benefits';
