@@ -5,10 +5,9 @@ import type { Product } from '../data/products';
 
 interface FeaturedProductsProps {
   products: Product[];
-  onWhatsAppClick: (product: Product) => void;
 }
 
-export function FeaturedProducts({ products, onWhatsAppClick }: FeaturedProductsProps) {
+export function FeaturedProducts({ products }: FeaturedProductsProps) {
   return (
     <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -28,7 +27,6 @@ export function FeaturedProducts({ products, onWhatsAppClick }: FeaturedProducts
             <ProductCard
               key={product.id}
               product={product}
-              onWhatsAppClick={onWhatsAppClick}
             />
           ))}
         </div>

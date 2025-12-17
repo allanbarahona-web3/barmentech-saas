@@ -32,8 +32,15 @@ export function Hero({ whatsappNumber = '+50687654321' }: HeroProps) {
 
         {/* Subtitle */}
         <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto">
-          Marcas premium con precios increíbles. Envío rápido a todo el país y atención personalizada por WhatsApp.
+          Marcas premium con precios increíbles. Envío rápido a todo el país con atención personalizada por WhatsApp.
         </p>
+
+        {/* Free Shipping Banner - Animated */}
+        <div className="mb-10 sm:mb-16 animate-bounce">
+          <div className="inline-block bg-gradient-to-r from-green-400 to-green-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base shadow-lg">
+            🚚 Solitita tu Envío GRATIS!
+          </div>
+        </div>
 
         {/* Trust Bullets */}
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6 mb-10 sm:mb-16 text-xs sm:text-sm text-gray-700">

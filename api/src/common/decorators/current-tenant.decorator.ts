@@ -8,8 +8,14 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 export const CurrentTenant = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): number => {
     const request = ctx.switchToHttp().getRequest();
-    // tenantId viene como number del JWT (ya validado y tipado)
-    const tenantId = request.user?.tenantId;
+    // Primero intenta obtener tenantId del usuario autenticado (JWT)
+    let tenantId = request.user?.tenantId;
+    
+    // Si no hay usuario (endpoint público), usa el tenantId del host/dominio
+    if (!tenantId) {
+      tenantId = request.tenantIdFromHost;
+    }
+    
     if (typeof tenantId === 'string') {
       return parseInt(tenantId, 10); // Fallback para compatibilidad
     }

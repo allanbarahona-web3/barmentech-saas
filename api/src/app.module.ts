@@ -16,6 +16,7 @@ import { EmailModule } from './modules/email/email.module';
 import { MediaModule } from './modules/media/media.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { CrmModule } from './modules/crm/crm.module';
+import { LeadsModule } from './modules/leads/leads.module';
 import { HostExtractionMiddleware } from './common/middleware/host-extraction.middleware';
 import { TenantContextMiddleware } from './common/middleware/tenant-context.middleware';
 
@@ -55,6 +56,7 @@ import { TenantContextMiddleware } from './common/middleware/tenant-context.midd
     MediaModule,
     CategoriesModule,
     CrmModule,
+    LeadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -127,6 +127,7 @@ model Tenant {
   media       Media[]
   conversations Conversation[]
   messages    Message[]
+  leads       Lead[]
 
   @@map("tenants")
 }
@@ -462,4 +463,44 @@ model Message {
   @@index([direction])
   @@index([createdAt])
   @@map("messages")
+}
+
+// ========================================
+// LEADS (Formularios landing page)
+// ========================================
+
+model Lead {
+  id                      String    @id @default(uuid())
+  tenantId                Int
+  
+  // Información del negocio
+  businessName            String
+  fullName                String
+  email                   String
+  whatsappNumber          String?
+  website                 String?
+  
+  // Información del formulario
+  currentSetup            String?
+  budgetRange             String?
+  salesFollowUpPerson     String?
+  mostImportantRightNow   String?
+  commitment2To3Months    String?
+  biggestPainPoint        String?
+  
+  // Metadata
+  status                  String    @default("new") // new, contacted, converted, rejected
+  notes                   String?
+  
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  
+  // Relaciones
+  tenant                  Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  
+  @@index([tenantId])
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+  @@map("leads")
 }
