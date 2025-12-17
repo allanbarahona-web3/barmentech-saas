@@ -38,6 +38,7 @@
     "@nestjs/platform-express": "^10.4.20",
     "@nestjs/throttler": "^6.4.0",
     "@prisma/client": "^5.7.0",
+    "@sendgrid/mail": "^8.1.6",
     "@types/multer": "^2.0.0",
     "@types/nodemailer": "^7.0.4",
     "bcrypt": "^5.1.1",

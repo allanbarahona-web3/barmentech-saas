@@ -1,13 +1,18 @@
 /**
- * EMAIL SERVICE - Multi-tenant SMTP Support
+ * EMAIL SERVICE - Multi-tenant SMTP Support + SendGrid Integration
  * 
  * Envía emails dinámicamente usando configuración SMTP de cada tenant
  * Soporta SMTP estándar, SendGrid, Mailgun, AWS SES
+ * Integrado con plantillas Handlebars para leads
  */
 
 import { Injectable, Logger, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
+import * as fs from 'fs';
+import * as path from 'path';
+import Handlebars from 'handlebars';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CryptoService } from '../../common/services/crypto.service';
 
@@ -30,12 +35,18 @@ export interface EmailTemplate {
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
   private transporters: Map<number, nodemailer.Transporter> = new Map();
+  private readonly templatesDir = path.join(__dirname, 'templates');
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly cryptoService: CryptoService,
     private readonly configService: ConfigService,
-  ) {}
+  ) {
+    // Inicializar SendGrid con API Key si está disponible
+    if (process.env.SENDGRID_API_KEY) {
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    }
+  }
 
   /**
    * Envía un email usando configuración SMTP del tenant
@@ -266,6 +277,199 @@ export class EmailService {
       this.transporters.delete(tenantId);
     } else {
       this.transporters.clear();
+    }
+  }
+
+  /**
+   * ==================== LEAD EMAIL METHODS ====================
+   */
+
+  /**
+   * Carga y compila una plantilla HTML con variables
+   */
+  private loadAndCompileTemplate(
+    templateName: string,
+    variables: Record<string, any>,
+  ): string {
+    try {
+      const templatePath = path.join(this.templatesDir, `${templateName}.html`);
+      const templateContent = fs.readFileSync(templatePath, 'utf-8');
+      const template = Handlebars.compile(templateContent);
+      return template(variables);
+    } catch (error) {
+      this.logger.error(
+        `Error cargando/compilando template ${templateName}:`,
+        error,
+      );
+      throw new Error(`No se pudo cargar la plantilla: ${templateName}`);
+    }
+  }
+
+  /**
+   * Envía email de notificación al admin cuando se recibe un nuevo lead
+   */
+  async sendLeadNotificationToAdmin(
+    lead: any,
+    tenantId: number,
+  ): Promise<void> {
+    try {
+      // Obtener información del tenant
+      const tenant = await this.prisma.tenant.findUnique({
+        where: { id: tenantId },
+        select: { name: true, config: true },
+      });
+
+      if (!tenant) {
+        this.logger.warn(`Tenant ${tenantId} no encontrado`);
+        return;
+      }
+
+      const config = tenant.config as any;
+
+      // Preparar variables para la plantilla
+      const templateVariables = {
+        tenantName: tenant.name,
+        tenantLogo: config?.logo,
+        brandColor: config?.brandColor || '#667eea',
+        brandColorDark: config?.brandColorDark || '#764ba2',
+        leadId: lead.id,
+        fullName: lead.fullName,
+        email: lead.email,
+        businessName: lead.businessName,
+        whatsappNumber: lead.whatsappNumber,
+        website: lead.website,
+        service: lead.service,
+        currentSetup: lead.currentSetup,
+        budgetRange: lead.budgetRange,
+        mostImportantRightNow: lead.mostImportantRightNow,
+        commitment2To3Months: lead.commitment2To3Months,
+        biggestPainPoint: lead.biggestPainPoint,
+        salesFollowUpPerson: lead.salesFollowUpPerson,
+        status: lead.status,
+        createdAt: new Date(lead.createdAt).toLocaleString('es-ES'),
+        dashboardLink: `${config?.website || 'https://www.barmentech.com'}/admin/leads/${lead.id}`,
+        // Footer info para CAN-SPAM compliance
+        street: config?.street,
+        city: config?.city,
+        state: config?.state,
+        zipCode: config?.zipCode,
+        country: config?.country,
+        phone: config?.phone,
+      };
+
+      // Compilar plantilla
+      const htmlContent = this.loadAndCompileTemplate(
+        'lead-notification-admin',
+        templateVariables,
+      );
+
+      // Enviar email via SendGrid
+      const msg = {
+        to: config?.adminEmail || 'admin@example.com',
+        from: {
+          email: process.env.SENDGRID_FROM_EMAIL,
+          name: process.env.SENDGRID_FROM_NAME,
+        },
+        replyTo: process.env.SENDGRID_REPLY_TO,
+        subject: `🎯 ¡Nuevo Lead! - ${lead.businessName}`,
+        html: htmlContent,
+      };
+
+      await sgMail.send(msg);
+      this.logger.log(`Email de notificación enviado al admin: ${config?.adminEmail}`);
+    } catch (error) {
+      this.logger.error(
+        `Error enviando email de notificación al admin:`,
+        error,
+      );
+      // No lanzamos error para no bloquear la creación del lead
+    }
+  }
+
+  /**
+   * Envía email de confirmación al cliente que envió el formulario
+   */
+  async sendLeadConfirmationToClient(
+    lead: any,
+    tenantId: number,
+  ): Promise<void> {
+    try {
+      // Obtener información del tenant
+      const tenant = await this.prisma.tenant.findUnique({
+        where: { id: tenantId },
+        select: { name: true, config: true },
+      });
+
+      if (!tenant) {
+        this.logger.warn(`Tenant ${tenantId} no encontrado`);
+        return;
+      }
+
+      const config = tenant.config as any;
+
+      // Preparar variables para la plantilla
+      const templateVariables = {
+        tenantName: tenant.name,
+        tenantLogo: config?.logo,
+        brandColor: config?.brandColor || '#667eea',
+        brandColorDark: config?.brandColorDark || '#764ba2',
+        fullName: lead.fullName.split(' ')[0], // Solo primer nombre
+        email: lead.email,
+        businessName: lead.businessName,
+        service: lead.service,
+        budgetRange: lead.budgetRange,
+        whatsappNumber: lead.whatsappNumber,
+        supportEmail: config?.supportEmail,
+        // Footer info para CAN-SPAM compliance
+        street: config?.street,
+        city: config?.city,
+        state: config?.state,
+        zipCode: config?.zipCode,
+        country: config?.country,
+        phone: config?.phone,
+      };
+
+      // Compilar plantilla
+      const htmlContent = this.loadAndCompileTemplate(
+        'lead-confirmation-client',
+        templateVariables,
+      );
+
+      // Enviar email via SendGrid
+      const msg = {
+        to: lead.email,
+        from: {
+          email: process.env.SENDGRID_FROM_EMAIL,
+          name: process.env.SENDGRID_FROM_NAME,
+        },
+        replyTo: process.env.SENDGRID_REPLY_TO,
+        subject: '✓ Confirmación - Recibimos tu solicitud',
+        html: htmlContent,
+      };
+
+      await sgMail.send(msg);
+      this.logger.log(`Email de confirmación enviado a: ${lead.email}`);
+    } catch (error) {
+      this.logger.error(
+        `Error enviando email de confirmación al cliente:`,
+        error,
+      );
+      // No lanzamos error para no bloquear la creación del lead
+    }
+  }
+
+  /**
+   * Envía ambos emails (admin + cliente) de forma paralela
+   */
+  async sendLeadNotifications(lead: any, tenantId: number): Promise<void> {
+    try {
+      await Promise.all([
+        this.sendLeadNotificationToAdmin(lead, tenantId),
+        this.sendLeadConfirmationToClient(lead, tenantId),
+      ]);
+      this.logger.log(`Emails de lead enviados exitosamente para: ${lead.id}`);
+    } catch (error) {
+      this.logger.error(`Error enviando emails para lead ${lead.id}:`, error);
     }
   }
 }
