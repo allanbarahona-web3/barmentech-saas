@@ -34,9 +34,14 @@
         }
         
         .logo {
-            max-width: 120px;
+            max-width: 140px;
+            width: 100%;
             height: auto;
-            margin-bottom: 15px;
+            display: block;
+            margin: 0 auto 15px;
+            border-radius: 8px;
+            background: white;
+            padding: 8px;
         }
         
         .header h1 {
@@ -150,9 +155,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            {{#if tenantLogo}}
-            <img src="{{tenantLogo}}" alt="{{tenantName}}" class="logo">
-            {{/if}}
+            <img src="https://barmentech-saas.atl1.digitaloceanspaces.com/Barmentech/tenant_branding/1763785757391-cyn3oc-logo-barmentech.png" alt="Barmentech" class="logo">
             <h1>🎯 ¡Nuevo Lead!</h1>
             <p>Se ha registrado una nueva solicitud en {{tenantName}}</p>
         </div>

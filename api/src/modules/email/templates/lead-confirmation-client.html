@@ -34,9 +34,14 @@
         }
         
         .logo {
-            max-width: 120px;
+            max-width: 140px;
+            width: 100%;
             height: auto;
-            margin-bottom: 15px;
+            display: block;
+            margin: 0 auto 15px;
+            border-radius: 8px;
+            background: white;
+            padding: 8px;
         }
         
         .header h1 {
@@ -104,18 +109,17 @@
         }
         
         .step-number {
-            min-width: 40px;
-            width: 40px;
-            height: 40px;
-            background-color: {{brandColor}};
-            color: white;
-            border-radius: 50%;
+            min-width: 60px;
+            width: 60px;
+            height: 60px;
+            color: {{brandColor}};
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             margin-right: 15px;
             flex-shrink: 0;
+            font-size: 48px;
         }
         
         .step-content h4 {
@@ -204,9 +208,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            {{#if tenantLogo}}
-            <img src="{{tenantLogo}}" alt="{{tenantName}}" class="logo">
-            {{/if}}
+            <img src="https://barmentech-saas.atl1.digitaloceanspaces.com/Barmentech/tenant_branding/1763785757391-cyn3oc-logo-barmentech.png" alt="Barmentech" class="logo">
             <div class="checkmark">✓</div>
             <h1>¡Gracias {{fullName}}!</h1>
             <p>Tu solicitud ha sido recibida exitosamente</p>
@@ -238,7 +240,7 @@
                 
                 <div class="steps">
                     <div class="step">
-                        <div class="step-number">1</div>
+                        <div class="step-number">📋</div>
                         <div class="step-content">
                             <h4>Revisamos tu solicitud</h4>
                             <p>Nuestro equipo analizará los detalles que compartiste para entender mejor tus necesidades.</p>
@@ -246,7 +248,7 @@
                     </div>
                     
                     <div class="step">
-                        <div class="step-number">2</div>
+                        <div class="step-number">📱</div>
                         <div class="step-content">
                             <h4>Te contactaremos pronto</h4>
                             <p>Un representante se comunicará contigo en <span class="highlight-text">1-2 días hábiles</span> por {{whatsappNumber}} o email.</p>
@@ -254,7 +256,7 @@
                     </div>
                     
                     <div class="step">
-                        <div class="step-number">3</div>
+                        <div class="step-number">💡</div>
                         <div class="step-content">
                             <h4>Presentamos nuestra solución</h4>
                             <p>Discutiremos cómo podemos ayudarte a alcanzar tus objetivos comerciales.</p>

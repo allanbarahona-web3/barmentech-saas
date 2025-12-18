@@ -9,7 +9,7 @@
 import { Injectable, Logger, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
-import sgMail from '@sendgrid/mail';
+import { MailService as SendGridMailService } from '@sendgrid/mail';
 import * as fs from 'fs';
 import * as path from 'path';
 import Handlebars from 'handlebars';
@@ -35,16 +35,28 @@ export interface EmailTemplate {
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
   private transporters: Map<number, nodemailer.Transporter> = new Map();
-  private readonly templatesDir = path.join(__dirname, 'templates');
+  private readonly templatesDir: string;
+  private sgMail: SendGridMailService;
+
+  private getTemplatesDir(): string {
+    // En desarrollo: busca en src/, en producción: busca en dist/
+    const distPath = path.join(__dirname, 'templates');
+    const srcPath = path.join(process.cwd(), 'src', 'modules', 'email', 'templates');
+    if (fs.existsSync(distPath)) return distPath;
+    if (fs.existsSync(srcPath)) return srcPath;
+    return distPath; // fallback
+  }
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly cryptoService: CryptoService,
     private readonly configService: ConfigService,
   ) {
+    this.templatesDir = this.getTemplatesDir();
     // Inicializar SendGrid con API Key si está disponible
     if (process.env.SENDGRID_API_KEY) {
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      this.sgMail = new SendGridMailService();
+      this.sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     }
   }
 
@@ -375,7 +387,7 @@ export class EmailService {
         html: htmlContent,
       };
 
-      await sgMail.send(msg);
+      await this.sgMail.send(msg);
       this.logger.log(`Email de notificación enviado al admin: ${config?.adminEmail}`);
     } catch (error) {
       this.logger.error(
@@ -447,7 +459,7 @@ export class EmailService {
         html: htmlContent,
       };
 
-      await sgMail.send(msg);
+      await this.sgMail.send(msg);
       this.logger.log(`Email de confirmación enviado a: ${lead.email}`);
     } catch (error) {
       this.logger.error(
