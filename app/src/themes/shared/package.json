@@ -1,0 +1,28 @@
+{
+  "name": "@allanbarahona-web3/shared",
+  "version": "1.0.0",
+  "description": "Shared React components for Barmentech SaaS applications",
+  "main": "index.ts",
+  "exports": {
+    "./auth": "./auth/index.ts",
+    "./commerce": "./commerce/index.ts",
+    "./contact": "./contact/index.ts",
+    "./tables": "./tables/index.ts",
+    "./ui": "./ui/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/allanbarahona-web3/barmentech-saas"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "next": "^14.0.0"
+  },
+  "keywords": ["barmentech", "shared", "components", "react", "nextjs"],
+  "author": "Barmentech",
+  "license": "PROPRIETARY"
+}
