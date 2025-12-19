@@ -2,20 +2,46 @@
 
 import Link from 'next/link';
 import { ShoppingBag, Menu, X, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSportsCart } from '../context/CartContext';
 import { getUniqueBrands } from '../data/products';
+import Image from 'next/image';
 
 interface HeaderProps {
   onCheckoutClick?: () => void;
+}
+
+interface TenantConfig {
+  logo?: string;
+  name?: string;
 }
 
 export function Header({ onCheckoutClick }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isBrandMenuOpen, setIsBrandMenuOpen] = useState(false);
+  const [tenantConfig, setTenantConfig] = useState<TenantConfig | null>(null);
   const { itemCount } = useSportsCart();
   const brands = getUniqueBrands();
+
+  useEffect(() => {
+    const fetchTenantConfig = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1';
+        const tenantSlug = process.env.NEXT_PUBLIC_TENANT_SLUG || 'sneakers-cr';
+        
+        const res = await fetch(`${apiUrl}/tenants/slug/${tenantSlug}`);
+        if (res.ok) {
+          const data = await res.json();
+          setTenantConfig(data);
+        }
+      } catch (error) {
+        console.error('Error fetching tenant config:', error);
+      }
+    };
+
+    fetchTenantConfig();
+  }, []);
 
   return (
     <>
@@ -24,9 +50,19 @@ export function Header({ onCheckoutClick }: HeaderProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex justify-between items-center">
           {/* Logo */}
           <Link href="/sports" className="flex items-center gap-2">
-            <div className="text-xl sm:text-2xl font-bold text-gray-900">
-              sneakers<span className="text-orange-500">cr</span>
-            </div>
+            {tenantConfig?.logo ? (
+              <Image
+                src={tenantConfig.logo}
+                alt="Logo"
+                width={40}
+                height={40}
+                className="h-10 w-auto"
+              />
+            ) : (
+              <div className="text-xl sm:text-2xl font-bold text-gray-900">
+                sneakers<span className="text-orange-500">cr</span>
+              </div>
+            )}
           </Link>
 
           {/* Desktop Menu - Center */}

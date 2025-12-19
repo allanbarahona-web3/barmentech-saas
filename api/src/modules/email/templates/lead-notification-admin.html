@@ -27,21 +27,20 @@
         }
         
         .header {
-            background: linear-gradient(135deg, {{brandColor}} 0%, {{brandColorDark}} 100%);
-            color: white;
+            background-color: #ffffff;
+            color: #1e3a8a;
             padding: 30px 20px;
             text-align: center;
+            border-bottom: 3px solid #1e3a8a;
         }
         
         .logo {
-            max-width: 140px;
+            max-width: 180px;
             width: 100%;
             height: auto;
             display: block;
             margin: 0 auto 15px;
             border-radius: 8px;
-            background: white;
-            padding: 8px;
         }
         
         .header h1 {
@@ -113,12 +112,12 @@
         }
         
         .btn-primary {
-            background-color: {{brandColor}};
+            background-color: #1e3a8a;
             color: white;
         }
         
         .btn-primary:hover {
-            background-color: {{brandColorDark}};
+            background-color: #15264e;
         }
         
         .highlight {
@@ -155,7 +154,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <img src="https://barmentech-saas.atl1.digitaloceanspaces.com/Barmentech/tenant_branding/1763785757391-cyn3oc-logo-barmentech.png" alt="Barmentech" class="logo">
+            <img src="https://barmentech-saas.atl1.digitaloceanspaces.com/Barmentech/tenant_branding/LogoBarmentech.png" alt="Barmentech" class="logo">
             <h1>🎯 ¡Nuevo Lead!</h1>
             <p>Se ha registrado una nueva solicitud en {{tenantName}}</p>
         </div>
@@ -257,18 +256,24 @@
             
             <!-- Action Buttons -->
             <div class="action-buttons">
-                <a href="{{dashboardLink}}" class="btn btn-primary">Ver en Dashboard</a>
+                <a href="{{dashboardLink}}" class="btn btn-primary" style="background-color: #1e3a8a !important; color: white !important; display: inline-block; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: 600;">Ver en Dashboard</a>
             </div>
         </div>
         
         <!-- Footer -->
         <div class="footer">
             <p><strong>{{tenantName}}</strong></p>
-            <p>{{street}}<br>{{city}}, {{state}} {{zipCode}}<br>{{country}}</p>
-            <p>{{phone}}</p>
+            {{#if ein}}
             <p>EIN: {{ein}}</p>
-            <p style="margin-top: 15px;">Este es un correo automático enviado por {{tenantName}}. No respondas a este correo.</p>
-            <p style="margin-top: 10px;">© 2025 {{tenantName}}. Todos los derechos reservados.</p>
+            {{/if}}
+            {{#if street}}
+            <p>{{street}}<br>{{#if city}}{{city}}, {{/if}}{{#if state}}{{state}} {{/if}}{{#if zipCode}}{{zipCode}}{{/if}}<br>{{#if country}}{{country}}{{/if}}</p>
+            {{/if}}
+            {{#if phone}}
+            <p>Teléfono: {{phone}}</p>
+            {{/if}}
+            <p style="margin-top: 15px; font-size: 11px;">Este es un correo automático enviado por {{tenantName}}. No respondas a este correo.</p>
+            <p style="margin-top: 10px; font-size: 11px;">© 2025 {{tenantName}}. Todos los derechos reservados.</p>
         </div>
     </div>
 </body>

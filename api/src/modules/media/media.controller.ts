@@ -26,10 +26,18 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
  * Endpoints para gestión de imágenes - Requiere autenticación
  * Solo admins/owners del tenant pueden gestionar media
  */
-@Controller('admin/media')
-@UseGuards(JwtAuthGuard, RolesGuard)
+@Controller('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
+
+  /**
+   * Obtener logo del tenant (PÚBLICO - sin autenticación)
+   * GET /media/logo/:tenantId
+   */
+  @Get('logo/:tenantId')
+  async getTenantLogo(@Param('tenantId') tenantId: string) {
+    return this.mediaService.getTenantLogo(parseInt(tenantId, 10));
+  }
 
   /**
    * Upload de imagen
@@ -38,7 +46,8 @@ export class MediaController {
    * Query: entityType, entityId, alt
    * Requiere: Autenticado y ser owner/manager del tenant
    */
-  @Post('upload')
+  @Post('admin/upload')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('owner', 'manager')
   @UseInterceptors(FileInterceptor('file'))
   async uploadMedia(
@@ -74,7 +83,8 @@ export class MediaController {
    * GET /admin/media
    * Requiere: Autenticado
    */
-  @Get()
+  @Get('admin')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('owner', 'manager', 'staff')
   async findByTenant(@CurrentTenant() tenantId?: number) {
     if (!tenantId) {
@@ -89,7 +99,8 @@ export class MediaController {
    * GET /admin/media/entity?entityType=category&entityId=cat-123
    * Requiere: Autenticado
    */
-  @Get('entity')
+  @Get('admin/entity')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('owner', 'manager', 'staff')
   async findByEntity(
     @Query('entityType') entityType: string,
@@ -108,7 +119,8 @@ export class MediaController {
    * GET /admin/media/:id
    * Requiere: Autenticado
    */
-  @Get(':id')
+  @Get('admin/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('owner', 'manager', 'staff')
   async findOne(
     @Param('id') id: string,
@@ -126,7 +138,8 @@ export class MediaController {
    * PATCH /admin/media/:id
    * Requiere: Autenticado y ser owner/manager del tenant
    */
-  @Patch(':id')
+  @Patch('admin/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('owner', 'manager')
   async update(
     @Param('id') id: string,
@@ -145,7 +158,8 @@ export class MediaController {
    * DELETE /admin/media/:id
    * Requiere: Autenticado y ser owner/manager del tenant
    */
-  @Delete(':id')
+  @Delete('admin/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('owner', 'manager')
   async remove(
     @Param('id') id: string,

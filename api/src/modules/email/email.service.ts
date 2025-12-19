@@ -336,6 +336,20 @@ export class EmailService {
         return;
       }
 
+      // Obtener email del admin (TenantUser con rol admin/owner)
+      const adminUser = await this.prisma.tenantUser.findFirst({
+        where: {
+          tenantId,
+          role: { in: ['admin', 'owner'] },
+        },
+        select: { email: true },
+      });
+
+      if (!adminUser) {
+        this.logger.warn(`Admin usuario no encontrado para tenant ${tenantId}`);
+        return;
+      }
+
       const config = tenant.config as any;
 
       // Preparar variables para la plantilla
@@ -367,6 +381,8 @@ export class EmailService {
         zipCode: config?.zipCode,
         country: config?.country,
         phone: config?.phone,
+        ein: config?.ein,
+        supportEmail: config?.supportEmail,
       };
 
       // Compilar plantilla
@@ -377,7 +393,7 @@ export class EmailService {
 
       // Enviar email via SendGrid
       const msg = {
-        to: config?.adminEmail || 'admin@example.com',
+        to: adminUser.email,
         from: {
           email: process.env.SENDGRID_FROM_EMAIL,
           name: process.env.SENDGRID_FROM_NAME,
@@ -388,7 +404,7 @@ export class EmailService {
       };
 
       await this.sgMail.send(msg);
-      this.logger.log(`Email de notificación enviado al admin: ${config?.adminEmail}`);
+      this.logger.log(`Email de notificación enviado al admin: ${adminUser.email}`);
     } catch (error) {
       this.logger.error(
         `Error enviando email de notificación al admin:`,

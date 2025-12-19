@@ -15,6 +15,33 @@ export class MediaService {
   ) {}
 
   /**
+   * Obtiene el logo del tenant (público, sin autenticación)
+   */
+  async getTenantLogo(tenantId: number) {
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { config: true, name: true },
+    });
+
+    if (!tenant) {
+      throw new NotFoundException(`Tenant ${tenantId} not found`);
+    }
+
+    const config = tenant.config as any;
+    const logoUrl = config?.logo;
+
+    if (!logoUrl) {
+      throw new NotFoundException(`No logo found for tenant ${tenantId}`);
+    }
+
+    return {
+      tenantId,
+      tenantName: tenant.name,
+      logoUrl,
+    };
+  }
+
+  /**
    * Sube un archivo y crea el registro en BD
    */
   async uploadMedia(
