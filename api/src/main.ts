@@ -84,33 +84,6 @@ async function bootstrap() {
     }),
   );
 
-  // ============ �️ IMAGE PROXY (bypass CORS) ============
-  // Serves images from DO Spaces through the backend to avoid CORS issues
-  app.get('/api/v1/files/logo', async (req, res) => {
-    try {
-      const url = req.query.url as string;
-      if (!url) {
-        return res.status(400).json({ error: 'URL parameter required' });
-      }
-
-      const response = await fetch(url);
-      if (!response.ok) {
-        return res.status(response.status).send('Error fetching image');
-      }
-
-      const contentType = response.headers.get('content-type') || 'image/png';
-      const buffer = await response.arrayBuffer();
-
-      res.set('Content-Type', contentType);
-      res.set('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
-      res.send(Buffer.from(buffer));
-    } catch (error) {
-      console.error('Error proxying image:', error);
-      res.status(500).json({ error: 'Error fetching image' });
-    }
-  });
-
-  // ============ �📍 GLOBAL PREFIX ============
   app.setGlobalPrefix('api/v1');
 
   const port = process.env.PORT || 3000;

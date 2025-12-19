@@ -1,5 +1,5 @@
 {
-  "name": "tactika-x-api",
+  "name": "barmentech-saas-api",
   "version": "1.0.0",
   "description": "Multi-tenant E-commerce API with NestJS, Prisma and PostgreSQL",
   "author": "Allan Barahona",
