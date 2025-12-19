@@ -5,9 +5,11 @@ import { TokenService } from './services/token.service';
 import { StorageService } from './services/storage.service';
 import { DOSpacesService } from './services/do-spaces.service';
 import { CryptoService } from './services/crypto.service';
+import { FilesController } from './controllers/files.controller';
 
 @Global()
 @Module({
+  controllers: [FilesController],
   providers: [
     TokenService,
     StorageService,
