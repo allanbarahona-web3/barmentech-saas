@@ -1,5 +1,0 @@
-pages.old/
-.next/
-node_modules/
-*.log
-.env.local

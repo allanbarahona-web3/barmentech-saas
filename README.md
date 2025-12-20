@@ -1,52 +1,93 @@
-# 🏪 **Barmentech Commerce SaaS**
-**Multi-industry modular platform for eCommerce, CRM, invoicing and business automations.**
+# 🚀 **Barmentech SaaS Backend API**
+**Multi-tenant REST API for eCommerce, CRM, invoicing and business automations.**
 
-Barmentech Commerce is a **multi-tenant business platform** designed to let companies sell, communicate and operate using **a single modular backend**, where each tenant activates only the modules they need.
+Barmentech SaaS Backend is a **multi-tenant NestJS API** designed to power multiple independent frontend applications using a single modular backend, where each tenant has isolated data and customizable modules.
 
-Unlike typical CMS or web templates, Barmentech provides:
+This is a **backend-only project**. Frontends are deployed independently in separate repositories.
 
-- **Real multi-tenancy architecture (RLS + AI-ready workflows)**
-- **Omnichannel CRM with API integrations and real-time messaging**
-- **Storefront modules customizable by domain, theme and logo**
-- **Workflow automation via APIs, webhooks, and messaging triggers**
-- **Enterprise-grade security (JWT+JTI, RLS, rate limiting)**
+## Key Features:
 
-📌 **One backend, multiple business applications.**
-Each tenant becomes its own independent platform with different capabilities.
+- **Real multi-tenancy architecture with PostgreSQL RLS**
+- **Domain-based tenant detection (automatic from Origin header)**
+- **Complete REST API for Products, Orders, Payments, CRM**
+- **Secure authentication (JWT with JTI blacklist)**
+- **File storage with Digital Ocean Spaces**
+- **Email notifications and templating**
+- **Rate limiting and CORS protection**
 
----
-
-## 🧩 **Platform Modules**
-📦 **eCommerce**  
-- Storefront with custom domains, logos and themes  
-- Tenant-isolated cart, checkout, catalog and users  
-- Ready for digital or physical products  
-
-💬 **Omnichannel CRM**  
-- WebSocket real-time messaging  
-- WhatsApp / Telegram / email integrations (via APIs & webhooks)  
-- Contact profiles, history, funnels, analytics   
-
-📜 **Invoicing & Billing**  
-- Digital receipts & ledger for orders  
-- Billing rules per tenant and automation  
-- Ready for integrations with payment providers  
-
-🤖 **Business Automations**  
-- Webhook-based triggers from external systems    
-- Event-driven payments + delivery flows  
-- Triggers for CRM, Storefront or Billing  
+📌 **One backend API, multiple tenant frontends.**
+Each tenant is isolated and can have multiple domains.
 
 ---
 
-## 🏗 **Business Architecture**
-| Component | Role |
-|-----------|------|
-| **Core SaaS Engine** | Multi-tenant logic, auth, modules, isolation |
-| **Tenant Storefronts** | Modular commerce with custom domains |
-| **Omnichannel CRM** | Real-time messaging + customer operations |
-| **Invoicing Layer** | Orders ledger, billing, receipts |
-| **Automations Hub** | Webhooks, background jobs and workflow orchestration |
+## 🧩 **API Modules**
+
+### 📦 **Products & Categories**  
+- Multi-tenant product catalog  
+- Categories with hierarchical structure
+- Image storage with DO Spaces proxy
+- Tenant-isolated data with RLS
+
+### 🛒 **Orders & Payments**  
+- Order creation and management
+- Payment processing integration
+- Order status tracking
+- Customer billing information
+
+### 💬 **CRM (Customer Relationship Management)**  
+- Contact management
+- Lead tracking and conversion
+- Customer interaction history
+- Segmentation and filtering
+
+### 👥 **Tenant & User Management**
+- Multi-tenant isolation
+- Domain-based tenant detection
+- User authentication with JWT
+- Role-based access control (RBAC)
+
+### 📁 **Media & Files**
+- Image upload to Digital Ocean Spaces
+- Image proxy to bypass CORS
+- File management per tenant
+
+### 📧 **Email Notifications**
+- Transactional emails
+- HTML templates with Handlebars
+- SendGrid integration
+
+---
+
+## 🏗 **Architecture**
+
+```
+Frontend Apps (Vercel)          Backend API (NestJS)           Database
+─────────────────────          ──────────────────────         ────────
+                                                              
+sneakerscr.vercel.app  ──┐                                   PostgreSQL
+www.cocoandnina.com    ──┼──→  localhost:3000/ngrok  ──→    (Digital Ocean)
+barmentech.com         ──┘      Multi-tenant API              + RLS Policies
+                                │
+                                ├─ Tenant Detection (Origin header)
+                                ├─ JWT Authentication  
+                                ├─ Rate Limiting
+                                └─ CORS Protection
+```
+
+**Each frontend:**
+- Independent Next.js application
+- Separate repository and deployment
+- Calls backend API with tenant's domain in Origin header
+- Backend automatically detects tenant from domain
+
+---
+
+## 🚀 **Getting Started**
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database
+- pnpm (package manager)
 
 🔐 **Each tenant has its own users, domain, products, orders, settings, contacts and data rules.**
 
