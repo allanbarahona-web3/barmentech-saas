@@ -102,6 +102,27 @@ async function main() {
     createdTenants.push(tenant3.name);
   }
 
+  let tenant4 = await prisma.tenant.findUnique({
+    where: { slug: 'coco-and-nina' },
+  });
+  if (!tenant4) {
+    tenant4 = await prisma.tenant.create({
+      data: {
+        name: 'Coco and Nina',
+        slug: 'coco-and-nina',
+        status: 'active',
+        billingStatus: 'ok',
+        industry: 'E-commerce',
+        config: {
+          theme: 'fashion',
+          website: 'https://www.cocoandnina.com',
+          brandName: 'Coco and Nina',
+        },
+      },
+    });
+    createdTenants.push(tenant4.name);
+  }
+
   if (createdTenants.length > 0) {
     console.log(`✅ Created tenants: ${createdTenants.join(', ')}`);
   } else {
@@ -135,6 +156,8 @@ async function main() {
   await createDomainIfNotExists(tenant2.id, 'tactika-x-app.vercel.app', false);
   await createDomainIfNotExists(tenant3.id, 'www.sneakerscr.com', true);
   await createDomainIfNotExists(tenant3.id, 'sneakerscr.vercel.app', false);
+  await createDomainIfNotExists(tenant4.id, 'www.cocoandnina.com', true);
+  await createDomainIfNotExists(tenant4.id, 'cocoandnina.vercel.app', false);
 
   if (createdDomains.length > 0) {
     console.log(`✅ Created domains: ${createdDomains.join(', ')}`);
