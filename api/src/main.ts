@@ -62,6 +62,8 @@ async function bootstrap() {
       'https://www.barmentech.com',
       'https://barmentech.vercel.app',
       'https://sneakerscr.vercel.app',
+      'https://cocoandnina.vercel.app',
+      'https://www.cocoandnina.com',
       'https://unspeciously-monospermous-jacqueline.ngrok-free.dev',
     ],
     credentials: true,
