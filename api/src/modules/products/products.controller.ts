@@ -18,6 +18,35 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { CurrentTenant } from '../../common/decorators/current-tenant.decorator';
 
+/**
+ * ============================================================
+ * PUBLIC ROUTES (sin autenticación)
+ * ============================================================
+ */
+@Controller('public/products')
+export class PublicProductsController {
+  constructor(private readonly productsService: ProductsService) {}
+
+  /**
+   * GET /api/v1/public/products - Obtener productos públicos de un tenant
+   * Sin autenticación - cualquiera puede acceder
+   * El tenantId se obtiene del domain/host automáticamente
+   */
+  @Get()
+  @SkipThrottle()
+  async getPublicProducts(@CurrentTenant() tenantId: number) {
+    if (!tenantId) {
+      throw new BadRequestException('Unable to determine tenant from domain');
+    }
+    const products = await this.productsService.findAllByTenant(tenantId);
+    return {
+      success: true,
+      count: products.length,
+      data: products,
+    };
+  }
+}
+
 @Controller('products')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class ProductsController {

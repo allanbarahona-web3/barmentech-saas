@@ -474,11 +474,12 @@ model Lead {
   tenantId                Int
   
   // Información del negocio
-  businessName            String
+  businessName            String?
   fullName                String
   email                   String
-  whatsappNumber          String?
+  whatsappNumber          String
   website                 String?
+  message                 String?
   
   // Información del formulario
   currentSetup            String?

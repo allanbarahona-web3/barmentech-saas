@@ -15,11 +15,12 @@ function sanitizeString(value: string): string {
 }
 
 export class CreateLeadDto {
+  @IsOptional()
   @IsString()
   @MinLength(2)
   @MaxLength(100)
   @Transform(({ value }) => sanitizeString(value))
-  businessName: string;
+  businessName?: string;
 
   @IsString()
   @MinLength(2)
@@ -32,17 +33,22 @@ export class CreateLeadDto {
   @Transform(({ value }) => value?.toLowerCase().trim())
   email: string;
 
-  @IsOptional()
   @IsString()
   @MaxLength(20)
   @Transform(({ value }) => sanitizeString(value))
-  whatsappNumber?: string;
+  whatsappNumber: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(255)
   @Transform(({ value }) => sanitizeString(value))
   website?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(1000)
+  @Transform(({ value }) => sanitizeString(value))
+  message?: string;
 
   @IsOptional()
   @IsString()
