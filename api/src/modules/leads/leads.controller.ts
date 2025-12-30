@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Param, Patch, Delete, HttpCode, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Patch, Delete, HttpCode, BadRequestException, Headers } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { LeadsService } from './leads.service';
 import { CreateLeadDto } from './dto';
@@ -14,6 +14,28 @@ export class PublicContactController {
   constructor(private readonly leadsService: LeadsService) {}
 
   /**
+   * Extrae el idioma del header Accept-Language
+   * Ej: "es-ES,es;q=0.9,en;q=0.8" -> "es"
+   */
+  private extractLanguageFromHeader(acceptLanguage: string): string {
+    if (!acceptLanguage) {
+      console.log('⚠️ No Accept-Language header recibido');
+      return 'es'; // Default a español
+    }
+    
+    console.log(`📋 Accept-Language header: ${acceptLanguage}`);
+    
+    const languages = acceptLanguage.split(',');
+    const primaryLang = languages[0].split('-')[0].toLowerCase();
+    
+    console.log(`🌍 Primary language detected: ${primaryLang}`);
+    
+    // Soportamos solo en e es por ahora
+    if (primaryLang === 'en') return 'en';
+    return 'es'; // Default a español
+  }
+
+  /**
    * POST /api/v1/contact - Formulario de contacto público
    * Sin autenticación - cualquiera puede enviar
    * Se almacena como un lead y envía emails automáticamente
@@ -24,10 +46,17 @@ export class PublicContactController {
   async submitContact(
     @Body() createLeadDto: CreateLeadDto,
     @CurrentTenant() tenantId: number,
+    @Headers('accept-language') acceptLanguage?: string,
   ) {
     if (!tenantId) {
       throw new BadRequestException('Unable to determine tenant from domain');
     }
+    
+    // Si no viene language en el body, detectar del header Accept-Language
+    if (!createLeadDto.language) {
+      createLeadDto.language = this.extractLanguageFromHeader(acceptLanguage);
+    }
+    
     const lead = await this.leadsService.create(createLeadDto, tenantId);
     return {
       success: true,
@@ -42,6 +71,28 @@ export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
 
   /**
+   * Extrae el idioma del header Accept-Language
+   * Ej: "es-ES,es;q=0.9,en;q=0.8" -> "es"
+   */
+  private extractLanguageFromHeader(acceptLanguage: string): string {
+    if (!acceptLanguage) {
+      console.log('⚠️ No Accept-Language header recibido');
+      return 'es'; // Default a español
+    }
+    
+    console.log(`📋 Accept-Language header: ${acceptLanguage}`);
+    
+    const languages = acceptLanguage.split(',');
+    const primaryLang = languages[0].split('-')[0].toLowerCase();
+    
+    console.log(`🌍 Primary language detected: ${primaryLang}`);
+    
+    // Soportamos solo en e es por ahora
+    if (primaryLang === 'en') return 'en';
+    return 'es'; // Default a español
+  }
+
+  /**
    * POST /api/v1/leads - Create a new lead from form submission
    * Rate limited: 10 requests per 60 seconds per IP to prevent spam
    */
@@ -51,7 +102,13 @@ export class LeadsController {
   async create(
     @Body() createLeadDto: CreateLeadDto,
     @CurrentTenant() tenantId: number,
+    @Headers('accept-language') acceptLanguage?: string,
   ) {
+    // Si no viene language en el body, detectar del header Accept-Language
+    if (!createLeadDto.language) {
+      createLeadDto.language = this.extractLanguageFromHeader(acceptLanguage);
+    }
+
     const lead = await this.leadsService.create(createLeadDto, tenantId);
     return {
       message: 'Lead creado exitosamente',

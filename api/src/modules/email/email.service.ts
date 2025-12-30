@@ -298,13 +298,50 @@ export class EmailService {
 
   /**
    * Carga y compila una plantilla HTML con variables
+   * Soporta múltiples idiomas: 
+   * - Si language='es' o no viene especificado, usa {templateName}.html (template base en español)
+   * - Si language='en', intenta cargar {templateName}-en.html
+   * - Si el archivo no existe, cae a {templateName}.html
    */
   private loadAndCompileTemplate(
     templateName: string,
     variables: Record<string, any>,
+    language?: string,
   ): string {
     try {
-      const templatePath = path.join(this.templatesDir, `${templateName}.html`);
+      let filename = `${templateName}.html`; // Default: español (sin sufijo)
+      
+      // Si viene un idioma especificado Y NO es español, intentar cargar variante localizada
+      if (language && language.trim() !== '') {
+        // Normalizar: convertir a minúsculas y extraer código de idioma principal
+        // Ej: 'en-US' -> 'en', 'es-ES' -> 'es'
+        const normalizedLang = language.toLowerCase().trim().split('-')[0];
+        
+        // Solo buscar sufijo si es distinto de 'es' (español es el default sin sufijo)
+        if (normalizedLang !== 'es') {
+          const languageFilename = `${templateName}-${normalizedLang}.html`;
+          const languagePath = path.join(this.templatesDir, languageFilename);
+          
+          this.logger.log(`🔍 Buscando template localizado: ${languageFilename} (idioma recibido: '${language}')`);
+          
+          // Si existe el archivo del idioma específico, usarlo
+          if (fs.existsSync(languagePath)) {
+            filename = languageFilename;
+            this.logger.log(`✅ Usando template en idioma '${normalizedLang}': ${filename}`);
+          } else {
+            this.logger.warn(
+              `⚠️ Template '${languageFilename}' no existe, usando default (español): ${templateName}.html`,
+            );
+          }
+        } else {
+          this.logger.log(`📧 Idioma español ('es') detectado, usando template base: ${templateName}.html`);
+        }
+      } else {
+        this.logger.log(`📧 Sin idioma especificado, usando default: ${templateName}.html`);
+      }
+      
+      const templatePath = path.join(this.templatesDir, filename);
+      this.logger.debug(`Cargando template desde: ${templatePath}`);
       const templateContent = fs.readFileSync(templatePath, 'utf-8');
       const template = Handlebars.compile(templateContent);
       return template(variables);
@@ -325,6 +362,8 @@ export class EmailService {
     tenantId: number,
   ): Promise<void> {
     try {
+      this.logger.log(`📧 Preparando notificación para admin - Lead ID: ${lead.id}, Idioma: ${lead.language || 'undefined'}`);
+
       // Obtener información del tenant
       const tenant = await this.prisma.tenant.findUnique({
         where: { id: tenantId },
@@ -389,22 +428,27 @@ export class EmailService {
       const htmlContent = this.loadAndCompileTemplate(
         'lead-notification-admin',
         templateVariables,
+        lead.language,
       );
 
       // Enviar email via SendGrid
+      const subjectPrefix = lead.language === 'en' 
+        ? '🎯 New Lead!'
+        : '🎯 ¡Nuevo Lead!';
+        
       const msg = {
         to: adminUser.email,
         from: {
-          email: process.env.SENDGRID_FROM_EMAIL,
-          name: process.env.SENDGRID_FROM_NAME,
+          email: config?.email?.fromAddress || process.env.SENDGRID_FROM_EMAIL,
+          name: config?.email?.fromName || process.env.SENDGRID_FROM_NAME,
         },
-        replyTo: process.env.SENDGRID_REPLY_TO,
-        subject: `🎯 ¡Nuevo Lead! - ${lead.businessName}`,
+        replyTo: config?.email?.replyToAddress || process.env.SENDGRID_REPLY_TO,
+        subject: `${subjectPrefix} - ${lead.businessName}`,
         html: htmlContent,
       };
 
       await this.sgMail.send(msg);
-      this.logger.log(`Email de notificación enviado al admin: ${adminUser.email}`);
+      this.logger.log(`✅ Email de notificación enviado al admin: ${adminUser.email} (desde: ${msg.from.name})`);
     } catch (error) {
       this.logger.error(
         `Error enviando email de notificación al admin:`,
@@ -422,6 +466,8 @@ export class EmailService {
     tenantId: number,
   ): Promise<void> {
     try {
+      this.logger.log(`📧 Preparando confirmación para cliente - Lead ID: ${lead.id}, Idioma: ${lead.language || 'undefined'}`);
+
       // Obtener información del tenant
       const tenant = await this.prisma.tenant.findUnique({
         where: { id: tenantId },
@@ -461,22 +507,27 @@ export class EmailService {
       const htmlContent = this.loadAndCompileTemplate(
         'lead-confirmation-client',
         templateVariables,
+        lead.language,
       );
 
       // Enviar email via SendGrid
+      const subject = lead.language === 'en' 
+        ? '✓ Confirmation - We received your request'
+        : '✓ Confirmación - Recibimos tu solicitud';
+        
       const msg = {
         to: lead.email,
         from: {
-          email: process.env.SENDGRID_FROM_EMAIL,
-          name: process.env.SENDGRID_FROM_NAME,
+          email: config?.email?.fromAddress || process.env.SENDGRID_FROM_EMAIL,
+          name: config?.email?.fromName || process.env.SENDGRID_FROM_NAME,
         },
-        replyTo: process.env.SENDGRID_REPLY_TO,
-        subject: '✓ Confirmación - Recibimos tu solicitud',
+        replyTo: config?.email?.replyToAddress || process.env.SENDGRID_REPLY_TO,
+        subject,
         html: htmlContent,
       };
 
       await this.sgMail.send(msg);
-      this.logger.log(`Email de confirmación enviado a: ${lead.email}`);
+      this.logger.log(`✅ Email de confirmación enviado a: ${lead.email} (desde: ${msg.from.name})`);
     } catch (error) {
       this.logger.error(
         `Error enviando email de confirmación al cliente:`,

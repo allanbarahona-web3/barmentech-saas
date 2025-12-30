@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación de tu solicitud</title>
+    <title>Request Confirmation</title>
     <style>
         * {
             margin: 0;
@@ -209,56 +209,56 @@
         <div class="header">
             <img src="{{tenantLogo}}" alt="{{tenantName}}" class="logo">
             <div class="checkmark">✓</div>
-            <h1>¡Gracias {{fullName}}!</h1>
-            <p>Tu solicitud ha sido recibida exitosamente</p>
+            <h1>Thank you {{fullName}}!</h1>
+            <p>Your request has been received successfully</p>
         </div>
         
         <!-- Content -->
         <div class="content">
             <!-- Greeting -->
             <div class="greeting">
-                Nos complace recibir tu solicitud de información sobre <span class="highlight-text">{{service}}</span>. Tu mensaje ha sido registrado en nuestro sistema y lo revisaremos con atención.
+                We're delighted to receive your information request about <span class="highlight-text">{{service}}</span>. Your message has been registered in our system and we will review it carefully.
             </div>
             
             <!-- Confirmation Box -->
             <div class="info-box">
-                <h3>📝 Resumen de tu solicitud</h3>
-                <p><strong>Email de contacto:</strong> {{email}}</p>
+                <h3>📝 Summary of your request</h3>
+                <p><strong>Contact email:</strong> {{email}}</p>
                 {{#if whatsappNumber}}
                 <p><strong>WhatsApp:</strong> {{whatsappNumber}}</p>
                 {{/if}}
-                <p><strong>Empresa:</strong> {{businessName}}</p>
+                <p><strong>Company:</strong> {{businessName}}</p>
                 {{#if budgetRange}}
-                <p><strong>Presupuesto estimado:</strong> {{budgetRange}}</p>
+                <p><strong>Estimated budget:</strong> {{budgetRange}}</p>
                 {{/if}}
             </div>
             
             <!-- Next Steps -->
             <div style="margin-top: 30px;">
-                <h3 style="color: #333; margin-bottom: 20px; font-size: 18px;">🚀 ¿Qué sucede a continuación?</h3>
+                <h3 style="color: #333; margin-bottom: 20px; font-size: 18px;">🚀 What happens next?</h3>
                 
                 <div class="steps">
                     <div class="step">
                         <div class="step-number">📋</div>
                         <div class="step-content">
-                            <h4>Revisamos tu solicitud</h4>
-                            <p>Nuestro equipo analizará los detalles que compartiste para entender mejor tus necesidades.</p>
+                            <h4>We review your request</h4>
+                            <p>Our team will analyze the details you've shared to better understand your needs.</p>
                         </div>
                     </div>
                     
                     <div class="step">
                         <div class="step-number">📱</div>
                         <div class="step-content">
-                            <h4>Te contactaremos pronto</h4>
-                            <p>Un representante se comunicará contigo en <span class="highlight-text">24 a 36 horas</span>, por medio de tu número {{whatsappNumber}} o email registrado.</p>
+                            <h4>We'll be in touch soon</h4>
+                            <p>A representative will contact you within <span class="highlight-text">24 to 36 hours</span> via your WhatsApp {{whatsappNumber}} or registered email.</p>
                         </div>
                     </div>
                     
                     <div class="step">
                         <div class="step-number">💡</div>
                         <div class="step-content">
-                            <h4>Presentamos nuestra solución</h4>
-                            <p>Discutiremos cómo podemos ayudarte a alcanzar tus objetivos comerciales.</p>
+                            <h4>We present our solution</h4>
+                            <p>We'll discuss how we can help you achieve your business objectives.</p>
                         </div>
                     </div>
                 </div>
@@ -268,15 +268,15 @@
             
             <!-- Contact Info -->
             <div class="contact-info">
-                <p>¿Tienes dudas o necesitas más información?</p>
+                <p>Have questions or need more information?</p>
                 <p><strong>Email:</strong> {{supportEmail}}</p>
-                <p><strong>Horario de atención:</strong> Lunes a Viernes, 9:00 AM - 6:00 PM</p>
+                <p><strong>Support hours:</strong> Monday to Friday, 9:00 AM - 6:00 PM</p>
             </div>
             
             <!-- Important Note -->
             <div class="info-box" style="border-left-color: #28a745; background-color: #f1f8f5;">
-                <h3 style="color: #28a745;">💡 Consejo importante</h3>
-                <p>Agrega nuestro email a tus contactos para asegurar que nuestros mensajes no terminen en spam. Nos gustaría contar con una comunicación fluida contigo.</p>
+                <h3 style="color: #28a745;">💡 Important tip</h3>
+                <p>Add our email to your contacts to ensure our messages don't end up in your spam folder. We'd like to maintain smooth communication with you.</p>
             </div>
         </div>
         
@@ -287,13 +287,13 @@
             <p>{{street}}<br>{{#if city}}{{city}}, {{/if}}{{#if state}}{{state}} {{/if}}{{#if zipCode}}{{zipCode}}{{/if}}<br>{{#if country}}{{country}}{{/if}}</p>
             {{/if}}
             {{#if phone}}
-            <p>Teléfono: {{phone}}</p>
+            <p>Phone: {{phone}}</p>
             {{/if}}
             <p style="margin-top: 12px; font-size: 11px; color: #bbb;">
-                Este es un correo automático. Por favor, no respondas a este mensaje.
+                This is an automated email. Please do not reply to this message.
             </p>
             <p style="margin-top: 8px; font-size: 11px;">
-                © 2025 {{tenantName}}. Todos los derechos reservados.
+                © 2025 {{tenantName}}. All rights reserved.
             </p>
         </div>
     </div>

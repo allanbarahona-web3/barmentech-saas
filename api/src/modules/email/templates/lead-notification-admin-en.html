@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Nuevo Lead!</title>
+    <title>New Lead!</title>
     <style>
         * {
             margin: 0;
@@ -155,17 +155,17 @@
         <!-- Header -->
         <div class="header">
             <img src="{{tenantLogo}}" alt="{{tenantName}}" class="logo">
-            <h1>🎯 ¡Nuevo Lead!</h1>
-            <p>Se ha registrado una nueva solicitud en {{tenantName}}</p>
+            <h1>🎯 New Lead!</h1>
+            <p>A new inquiry has been submitted to {{tenantName}}</p>
         </div>
         
         <!-- Content -->
         <div class="content">
-            <!-- Información Principal -->
+            <!-- Contact Information -->
             <div class="section">
-                <div class="section-title">📋 Información del Contacto</div>
+                <div class="section-title">📋 Contact Information</div>
                 <div class="info-row">
-                    <span class="info-label">Nombre:</span>
+                    <span class="info-label">Name:</span>
                     <span class="info-value"><strong>{{fullName}}</strong></span>
                 </div>
                 <div class="info-row">
@@ -173,11 +173,11 @@
                     <span class="info-value">{{email}}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Teléfono/WhatsApp:</span>
+                    <span class="info-label">Phone/WhatsApp:</span>
                     <span class="info-value">{{whatsappNumber}}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Negocio:</span>
+                    <span class="info-label">Business:</span>
                     <span class="info-value">{{businessName}}</span>
                 </div>
                 <div class="info-row">
@@ -186,48 +186,48 @@
                 </div>
             </div>
             
-            <!-- Información del Formulario -->
+            <!-- Request Details -->
             <div class="section">
-                <div class="section-title">💼 Detalles de la Solicitud</div>
+                <div class="section-title">💼 Request Details</div>
                 {{#if service}}
                 <div class="info-row">
-                    <span class="info-label">Servicio:</span>
+                    <span class="info-label">Service:</span>
                     <span class="info-value">{{service}}</span>
                 </div>
                 {{/if}}
                 {{#if currentSetup}}
                 <div class="info-row">
-                    <span class="info-label">Estado Actual:</span>
+                    <span class="info-label">Current Setup:</span>
                     <span class="info-value">{{currentSetup}}</span>
                 </div>
                 {{/if}}
                 {{#if budgetRange}}
                 <div class="info-row">
-                    <span class="info-label">Presupuesto:</span>
+                    <span class="info-label">Budget:</span>
                     <span class="info-value">{{budgetRange}}</span>
                 </div>
                 {{/if}}
                 {{#if mostImportantRightNow}}
                 <div class="info-row">
-                    <span class="info-label">Prioridad:</span>
+                    <span class="info-label">Priority:</span>
                     <span class="info-value">{{mostImportantRightNow}}</span>
                 </div>
                 {{/if}}
                 {{#if commitment2To3Months}}
                 <div class="info-row">
-                    <span class="info-label">Compromiso 2-3 meses:</span>
+                    <span class="info-label">2-3 Month Commitment:</span>
                     <span class="info-value">{{commitment2To3Months}}</span>
                 </div>
                 {{/if}}
                 {{#if biggestPainPoint}}
                 <div class="info-row">
-                    <span class="info-label">Mayor Desafío:</span>
+                    <span class="info-label">Main Challenge:</span>
                     <span class="info-value">{{biggestPainPoint}}</span>
                 </div>
                 {{/if}}
                 {{#if salesFollowUpPerson}}
                 <div class="info-row">
-                    <span class="info-label">Contacto de Ventas:</span>
+                    <span class="info-label">Sales Contact:</span>
                     <span class="info-value">{{salesFollowUpPerson}}</span>
                 </div>
                 {{/if}}
@@ -235,28 +235,28 @@
             
             <!-- Highlight -->
             <div class="highlight">
-                ⚡ <strong>Acción Requerida:</strong> Este es un lead nuevo. Se recomienda contactar lo antes posible mientras el interés esté fresco.
+                ⚡ <strong>Action Required:</strong> This is a new lead. It's recommended to contact them as soon as possible while their interest is fresh.
             </div>
             
             <!-- Metadata -->
             <div class="section" style="font-size: 12px; color: #999;">
                 <div class="info-row">
-                    <span class="info-label">ID del Lead:</span>
+                    <span class="info-label">Lead ID:</span>
                     <span class="info-value">{{leadId}}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Fecha:</span>
+                    <span class="info-label">Date:</span>
                     <span class="info-value">{{createdAt}}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Estado:</span>
+                    <span class="info-label">Status:</span>
                     <span class="info-value"><span class="status-badge">{{status}}</span></span>
                 </div>
             </div>
             
             <!-- Action Buttons -->
             <div class="action-buttons">
-                <a href="{{dashboardLink}}" class="btn btn-primary" style="background-color: {{brandColor}} !important; color: white !important; display: inline-block; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: 600;">Ver en Dashboard</a>
+                <a href="{{dashboardLink}}" class="btn btn-primary" style="background-color: {{brandColor}} !important; color: white !important; display: inline-block; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: 600;">View in Dashboard</a>
             </div>
         </div>
         
@@ -273,10 +273,10 @@
             <p>{{street}}<br>{{#if city}}{{city}}, {{/if}}{{#if state}}{{state}} {{/if}}{{#if zipCode}}{{zipCode}}{{/if}}<br>{{#if country}}{{country}}{{/if}}</p>
             {{/if}}
             {{#if phone}}
-            <p>Teléfono: {{phone}}</p>
+            <p>Phone: {{phone}}</p>
             {{/if}}
-            <p style="margin-top: 15px; font-size: 11px;">Este es un correo automático enviado por {{tenantName}}. No respondas a este correo.</p>
-            <p style="margin-top: 10px; font-size: 11px;">© 2025 {{tenantName}}. Todos los derechos reservados.</p>
+            <p style="margin-top: 15px; font-size: 11px;">This is an automated email sent by {{tenantName}}. Please do not reply to this email.</p>
+            <p style="margin-top: 10px; font-size: 11px;">© 2025 {{tenantName}}. All rights reserved.</p>
         </div>
     </div>
 </body>

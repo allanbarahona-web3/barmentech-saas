@@ -5,7 +5,7 @@ import { TokenService } from '../../common/services/token.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { CrmSignupDto } from './dto/crm-signup.dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { randomUUID } from 'crypto';
 
 export interface JwtPayload {
